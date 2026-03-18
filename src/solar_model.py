@@ -39,6 +39,7 @@ def run_pvsam_and_export_ac_outputs(
         "ac_perf_adj_loss_kw": "ac_perf_adj_loss",
         "ac_transmission_loss_kw": "ac_transmission_loss",
         "ac_wiring_loss_kw": "ac_wiring_loss",
+        "ac_nett_kw": "gen",
     }
 
     # --- Collect outputs safely ---

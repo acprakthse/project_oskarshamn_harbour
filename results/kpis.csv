@@ -1,0 +1,2 @@
+pv_MWh,load_MWh,import_MWh,export_MWh,charge_MWh,discharge_MWh,SCR_pct,SSR_pct,equiv_full_cycles,year1_SoH_pct,estimated_life_yr,peak_demand_kw,annual_demand_cost,baseline_cost,optimised_cost,annual_savings,savings_pct,lifetime_savings,E_cap_kwh,P_max_kw
+737.3000,6325.3200,5612.0000,0.2900,401.6000,377.9100,99.9600,11.2800,265.6000,99.2000,25.0000,2074.0000,3227183.8400,26586307.2800,25440907.4500,1145399.8300,4.3100,22907996.5300,1726.0000,863.0000
