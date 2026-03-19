@@ -15,8 +15,9 @@ BASE_DIR     = Path(__file__).resolve().parent.parent
 DATA_DIR     = BASE_DIR / "input_data"
 RESULTS_DIR  = BASE_DIR / "results"
 
-HELIOSCOPE_CSV = DATA_DIR / "helioscope_8760.csv"
-LOAD_CSV       = DATA_DIR / "load_8760.csv"
+HELIOSCOPE_CSV      = DATA_DIR / "helioscope_8760.csv"
+LOAD_CSV            = DATA_DIR / "load_8760.csv"
+DAY_AHEAD_PRICE_CSV = DATA_DIR / "day_ahead_price.csv"
 
 # =============================================================================
 # CSV column names  (edit if your export uses different headers)

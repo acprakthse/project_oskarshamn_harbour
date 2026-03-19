@@ -77,6 +77,56 @@ class Tariff:
         ])
 
     @classmethod
+    def load_day_ahead_prices(
+        cls,
+        timestamps: pd.DatetimeIndex,
+        csv_path=None,
+    ) -> np.ndarray:
+        """
+        Load real day-ahead electricity prices from CSV and align to timestamps.
+
+        The CSV must have columns:
+            Datetime            — e.g. "1/1/2025 0:00"
+            Price (EUR/MWhe)    — price in EUR per MWh
+
+        Prices are converted EUR/MWhe → EUR/kWh (÷ 1000).
+        Alignment is by (month, day, hour) so year mismatches are handled.
+        If a timestamp has no match in the CSV, falls back to Tariff.price_vector().
+
+        Parameters
+        ----------
+        timestamps : pd.DatetimeIndex
+        csv_path   : Path or str — defaults to settings.DAY_AHEAD_PRICE_CSV
+
+        Returns
+        -------
+        np.ndarray  shape (T,)  dtype float64  [EUR/kWh]
+        """
+        from config.settings import DAY_AHEAD_PRICE_CSV
+        if csv_path is None:
+            csv_path = DAY_AHEAD_PRICE_CSV
+
+        df = pd.read_csv(csv_path)
+        df.columns = df.columns.str.strip()
+
+        dt_col    = "Datetime"
+        price_col = "Price (EUR/MWhe)"
+        df[dt_col] = pd.to_datetime(df[dt_col], dayfirst=False)
+
+        # Build lookup: (month, day, hour) → price in EUR/kWh
+        lookup = {
+            (row[dt_col].month, row[dt_col].day, row[dt_col].hour): row[price_col] / 1000.0
+            for _, row in df.iterrows()
+        }
+
+        fallback = cls.price_vector(timestamps)
+        prices = np.array([
+            lookup.get((ts.month, ts.day, ts.hour), fallback[i])
+            for i, ts in enumerate(timestamps)
+        ])
+        return prices
+
+    @classmethod
     def summarise(cls) -> None:
         print("─" * 45)
         print("Tariff configuration")
